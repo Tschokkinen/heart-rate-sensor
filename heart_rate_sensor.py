@@ -121,6 +121,7 @@ def please_wait():
     display.show()
 
 # Variables used to calculate heart rate variability by using RMSSD
+# (Mean of the squared successive differences)
 values_for_hrv = []
 first_time_measured = False
 time_one = 0
