@@ -36,8 +36,8 @@ cut_off_limit = 30 # Max number of measurements to be taken.
 
 measured_values = [] # Used to calculate bpm average after terminating the program
 
-beats = []
-beat_time = 0
+beats = [] # Array for beat times.
+beat_time = 0 # Time initialized to zero.
 min_treshold = 32000 # Min value to detect a heart beat.
 max_treshold = 40000 # Max value to detect a heart beat.
 
@@ -120,6 +120,39 @@ def please_wait():
     display.text("Please wait...", 0, 0, 1)
     display.show()
 
+# Variables used to calculate heart rate variability by using RMSSD
+values_for_hrv = []
+first_time_measured = False
+time_one = 0
+time_two = 0
+
+# Calculates the difference between
+# two consecutive times (time_one and time_two).
+def calculate_consecutive_times():
+    global first_time_measured
+    global time_one
+    global time_two
+    
+    # Get first measured time to time_one.
+    # After that always use time_two.
+    if not first_time_measured: 
+        time_one = time.time()
+        first_time_measured = True
+    else:
+        time_two = time.time()
+        
+    if time_one is not 0 and time_two is not 0:
+        current = (time_one - time_two)
+        current = current**2
+        #print(current)
+        values_for_hrv.append(current) # Append current time.
+        time_one = time_two # Swap second value to first for second round.
+
+def calculate_hrv():
+    calculate_hrv = sum(values_for_hrv) / (2*len(values_for_hrv))
+    # print(calculated_hrv)
+    return calculate_hrv
+
 # When measuring is done.
 def measuring_done():
     # Clear display and show average bpm.
@@ -127,9 +160,9 @@ def measuring_done():
     display.text("Measuring done.", 0, 0, 1)
     # Calculate average BPM from last 15 values to get rid of the higher values measured at the beginning.
     display.text("Average BPM: %d " % (sum(measured_values[-15:]) / len(measured_values[-15:])), 0, 10, 1)
+    display.text("HRV: %.4f" % calculate_hrv(), 0, 20, 1)
     display.show()
-
-
+    
 # Start of program
 welcome()
 please_wait()
@@ -161,11 +194,12 @@ while cut_off_counter is not cut_off_limit:
             beats.append(time.time()) # Append time.
             # print(beats)
             beats = beats[-30:] # Get the last 30 items from beats list.
-            beat_time = beats[-1] - beats[0] # Check if value is more than one.
+            beat_time = beats[-1] - beats[0] # Check if value is positive.
             if beat_time:
                 bpm = (len(beats) / (beat_time)) * 60
                 bpm = float("{:.2f}".format(bpm)) # Limit decimals to two.
                 if bpm > 50 and bpm < 200:
+                    calculate_consecutive_times()
                     print(f"BPM: {bpm}")
                     display.fill(0) # Clear display and show text content
                     display.text("Patient name: ", 0, 0, 1)
