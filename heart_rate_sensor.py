@@ -120,8 +120,9 @@ def please_wait():
     display.text("Please wait...", 0, 0, 1)
     display.show()
 
-# Variables used to calculate heart rate variability by using RMSSD
-# (Root Mean Squared Successive Differences)
+# Variables used to calculate heart rate variability by using MSSD
+# (Mean of the Squared Successive Differences)
+# Using RMSSD would probably be better/right solution.
 values_for_hrv = []
 first_time_measured = False
 time_one = 0
