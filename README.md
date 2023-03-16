@@ -6,11 +6,8 @@ The program could be more structured (e.g. split functionality to different file
 
 HRV is calculate using MSSD (Mean of the Squared Successive Differences), but using RMSSD would probably be a better/the right solution. 
 
-<b>
-NOTE: The MQTT parts were written together with the course instructor, but the rest of the code is either entirely self-written or inspired by other solutions found on the internet.
-</b>
-
-
-
-
 The program won't be updated further because the RaspberryPi Pico W hardware isn't accessible anymore. Due to this the MSSD and RMSSD differences cannot be tested either.
+
+<b>
+NOTE: The MQTT parts were written together with the course instructor, but the rest of the code is entirely self-written created solution.
+</b>
