@@ -9,5 +9,5 @@ HRV is calculate using MSSD (Mean of the Squared Successive Differences), but us
 The program won't be updated further because the RaspberryPi Pico W hardware isn't accessible anymore. Due to this the MSSD and RMSSD differences cannot be tested either.
 
 <b>
-NOTE: The MQTT parts were written together with the course instructor, but the rest of the code is entirely self-written solution.
+NOTE: The MQTT parts were written together with the course instructor, but the rest of the solution is entirely self-created.
 </b>
